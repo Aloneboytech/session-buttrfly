@@ -3,24 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Générateur WhatsApp Bot</title>
-    <link rel="stylesheet" href="style.css">
+    <title>QR & Session Generator</title>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 </head>
 <body>
-    <header>
-        <h1>Générateur de connexion pour WhatsApp Bot</h1>
-    </header>
-    
-    <section id="generator">
-        <button onclick="generateQRCode()">📷 Générer QR Code</button>
-        <button onclick="generatePairCode()">🔑 Générer Pair Code</button>
-        <div id="output"></div>
-    </section>
-
-    <footer>
-        <p>© 2025 BUTTERFLY-MD - Tous droits réservés</p>
-    </footer>
-
-    <script src="script.js"></script>
+    <h1>Générateur de QR Code & Session WhatsApp</h1>
+    <div>
+        <img id="qr-code" src="" alt="QR Code">
+        <p id="status">En attente du QR Code...</p>
+    </div>
+    <script>
+        async function fetchQR() {
+            try {
+                const response = await axios.get('/generate');
+                document.getElementById('qr-code').src = response.data.qr;
+                document.getElementById('status').textContent = "Scannez ce QR avec WhatsApp";
+            } catch (error) {
+                document.getElementById('status').textContent = "Erreur lors de la génération.";
+                console.error('Erreur:', error);
+            }
+        }
+        fetchQR();
+    </script>
 </body>
 </html>
