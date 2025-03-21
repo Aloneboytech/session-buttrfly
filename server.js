@@ -2,6 +2,7 @@ const express = require('express');
 const { default: makeWASocket, useMultiFileAuthState } = require('@whiskeysockets/baileys');
 const QRCode = require('qrcode');
 const cors = require('cors');
+const path = require('path'); // Ajout de path
 
 const app = express();
 app.use(cors());
@@ -41,6 +42,11 @@ app.get('/generate', async (req, res) => {
     } else {
         res.status(500).json({ error: 'QR Code non disponible' });
     }
+});
+
+// 👉 Ajoute ceci pour que la page d'accueil s'affiche correctement
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
 app.listen(3000, () => {
